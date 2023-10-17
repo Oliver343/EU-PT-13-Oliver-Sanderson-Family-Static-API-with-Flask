@@ -55,11 +55,8 @@ def handle_hello():
 @app.route('/member/<int:id>', methods=['GET', 'DELETE'])
 def handle_get_member(id):
     if request.method == "GET":
-        member_old = jackson_family.get_member(int(id))
-        # member = {"name": member_old[0]["first_name"] + " " + member_old[0]["last_name"], "id": member_old[0]["id"], "age": member_old[0]["age"], "lucky_numbers": member_old[0]["lucky_numbers"]}
-        response_body = {
-            "member": member_old
-        }
+        member = jackson_family.get_member(int(id))
+        response_body = member[0] # Will this work if empty? 343
     if request.method == "DELETE":
         jackson_family.delete_member(int(id))
         response_body = {
@@ -70,7 +67,6 @@ def handle_get_member(id):
 @app.route('/member', methods=['POST'])
 def handle_new_member():
     recieved_data = request.get_json()
-    print(recieved_data["id"])
     if 'id' in recieved_data:
         id_to_use = recieved_data["id"]
     else:
