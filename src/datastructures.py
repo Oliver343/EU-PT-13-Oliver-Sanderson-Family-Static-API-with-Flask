@@ -20,7 +20,9 @@ class FamilyStructure:
         return randint(0, 99999999)
 
     def add_member(self, member):
+        print(member.id)
         if member.id:
+            print("CUSTOM ID")
             id_to_use = member.id
         else:
             id_to_use = self._generateId()

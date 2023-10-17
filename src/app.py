@@ -52,25 +52,26 @@ def handle_hello():
     response_body = members
     return jsonify(response_body), 200
 
-@app.route('/member/<id>', methods=['GET', 'DELETE'])
+@app.route('/member/<int:id>', methods=['GET', 'DELETE'])
 def handle_get_member(id):
     if request.method == "GET":
-        member = jackson_family.get_member(int(id))
+        member_old = jackson_family.get_member(int(id))
+        # member = {"name": member_old[0]["first_name"] + " " + member_old[0]["last_name"], "id": member_old[0]["id"], "age": member_old[0]["age"], "lucky_numbers": member_old[0]["lucky_numbers"]}
         response_body = {
-            "member": member
+            "member": member_old
         }
     if request.method == "DELETE":
         jackson_family.delete_member(int(id))
         response_body = {
-            "message": "done"
+            "done": True
         }
     return jsonify(response_body), 200
 
 @app.route('/member', methods=['POST'])
 def handle_new_member():
     recieved_data = request.get_json()
-    print(recieved_data)
-    if hasattr(recieved_data, 'id'):
+    print(recieved_data["id"])
+    if 'id' in recieved_data:
         id_to_use = recieved_data["id"]
     else:
         id_to_use = None
