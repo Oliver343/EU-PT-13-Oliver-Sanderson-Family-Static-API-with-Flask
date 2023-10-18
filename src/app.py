@@ -56,12 +56,18 @@ def handle_hello():
 def handle_get_member(id):
     if request.method == "GET":
         member = jackson_family.get_member(int(id))
-        response_body = member[0] # Will this work if empty? 343
+        response_body = "No member found"
+        for x in member:
+            response_body = x
+        # response_body = member[0] # Will this work if empty? 343
     if request.method == "DELETE":
-        jackson_family.delete_member(int(id))
-        response_body = {
-            "done": True
-        }
+        member = jackson_family.delete_member(int(id))
+        response_body = "No member found"
+        for x in member:
+            print(x)
+            response_body = {
+                "done": True
+            }
     return jsonify(response_body), 200
 
 @app.route('/member', methods=['POST'])
